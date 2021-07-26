@@ -29,15 +29,14 @@ jobs:
           queries: security-and-quality
           languages: csharp
 
-    #   - name: Perform CodeQL Autobuild
-    #     uses: github/codeql-action/autobuild@v1
-
       - name: Build solution
         run: |
           $pathToSolution = "src/MIDebugEngine.sln"
           $buildConfiguration = "Debug"
           $useSharedCompilation = "false"
           $testProjects = "MICoreUnitTests/MICoreUnitTests.csproj", "JDbgUnitTests/JDbgUnitTests.csproj", "SSHDebugTests/SSHDebugUnitTests.csproj", "../test/CppTests/CppTests.csproj", "../test/DebugAdapterRunner/DebugAdapterRunner.csproj", "../test/DebuggerTesting/DebuggerTesting.csproj" # separate paths with comma as in: "test1", "test2"
+
+          dotnet nuget locals all --clear
 
           # remove one or more test projects,
           # so that CodeQL only analyzes the source code
@@ -46,19 +45,12 @@ jobs:
           dotnet clean $pathToSolution `
           --configuration $buildConfiguration
 
-          dotnet nuget locals all --clear
-
           nuget restore $pathToSolution
 
           msbuild $pathToSolution `
           -property:Configuration=$buildConfiguration `
           -property:UseSharedCompilation=$useSharedCompilation `
           -target:rebuild
-
-          # dotnet build $pathToSolution `
-          # configuration $buildConfiguration `
-          # --no-incremental `
-          # -property:UseSharedCompilation=$useSharedCompilation
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
