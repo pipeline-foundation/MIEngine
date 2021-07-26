@@ -29,8 +29,8 @@ jobs:
           queries: security-and-quality
           languages: csharp
 
-      - name: Perform CodeQL Autobuild
-        uses: github/codeql-action/autobuild@v1
+    #   - name: Perform CodeQL Autobuild
+    #     uses: github/codeql-action/autobuild@v1
 
       - name: Build solution
         run: |
