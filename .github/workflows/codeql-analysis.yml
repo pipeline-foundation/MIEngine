@@ -17,8 +17,8 @@ jobs:
         with:
           dotnet-version: 5.0.301
 
-    #   - name: Add msbuild to PATH
-    #     uses: microsoft/setup-msbuild@v1.0.2
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -27,31 +27,38 @@ jobs:
         uses: github/codeql-action/init@v1
         with:
           queries: security-and-quality
+          languages: csharp
 
       - name: Perform CodeQL Autobuild
         uses: github/codeql-action/autobuild@v1
 
-      # - name: Build solution
-      #   shell: pwsh
-      #   run: |
-      #     $pathToSolution = ""
-      #     $buildConfiguration = "Release"
-      #     $useSharedCompilation = "false"
-      #     $testProjects = "" # separate paths with comma as in: "test1", "test2"
+      - name: Build solution
+        run: |
+          $pathToSolution = ""
+          $buildConfiguration = "Debug"
+          $useSharedCompilation = "false"
+          $testProjects = "MICoreUnitTests/MICoreUnitTests.csproj", "JDbgUnitTests/JDbgUnitTests.csproj", "SSHDebugTests/SSHDebugUnitTests.csproj", "../test/CppTests/CppTests.csproj", "../test/DebugAdapterRunner/DebugAdapterRunner.csproj", "../test/DebuggerTesting/DebuggerTesting.csproj" # separate paths with comma as in: "test1", "test2"
 
-      #     # remove one or more test projects,
-      #     # so that CodeQL only analyzes the source code
-      #     dotnet sln $pathToSolution remove $testProjects
+          # remove one or more test projects,
+          # so that CodeQL only analyzes the source code
+          dotnet sln $pathToSolution remove $testProjects
 
-      #     dotnet clean $pathToSolution `
-      #     --configuration $buildConfiguration
+          dotnet clean $pathToSolution `
+          --configuration $buildConfiguration
 
-      #     dotnet restore $pathToSolution
+          dotnet nuget locals all --clear
 
-      #     dotnet build $pathToSolution `
-      #     --configuration $buildConfiguration `
-      #     --no-incremental `
-      #     -property:UseSharedCompilation=$useSharedCompilation
+          nuget restore $pathToSolution
+
+          msbuild src/MIDebugEngine.sln `
+          -property:Configuration=$buildConfiguration `
+          -property:UseSharedCompilation=$useSharedCompilation `
+          -target:rebuild
+
+          # dotnet build $pathToSolution `
+          # configuration $buildConfiguration `
+          # --no-incremental `
+          # -property:UseSharedCompilation=$useSharedCompilation
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
