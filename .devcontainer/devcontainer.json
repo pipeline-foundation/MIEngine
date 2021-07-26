@@ -1,5 +1,5 @@
 {
-	"name": " Codespace",
+	"name": "MIEngine Codespace",
 	"image": "mcr.microsoft.com/vscode/devcontainers/dotnet:0.201.7-5.0",
 	"settings": {
 		"workbench.colorTheme": "Default Dark+",
@@ -16,16 +16,15 @@
 		"redhat.vscode-yaml",
 		"bierner.markdown-preview-github-styles",
 		"ban.spellright",
-		// .NET development specific
+		// .NET specific
 		"ms-dotnettools.csharp",
 		"VisualStudioExptTeam.vscodeintellicode",
 		"ms-vscode.powershell",
-		"jmrog.vscode-nuget-package-manager"
+		"jmrog.vscode-nuget-package-manager",
+    // CPP specific
+    "ms-vscode.cpptools"
 	],
-	"postCreateCommand": "",
-	// "build": {
-	// 	"dockerfile": "Dockerfile"
-	// }
+	"postCreateCommand": ""
 }
 
 // Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
