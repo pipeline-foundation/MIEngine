@@ -34,7 +34,7 @@ jobs:
 
       - name: Build solution
         run: |
-          $pathToSolution = ""
+          $pathToSolution = "src/MIDebugEngine.sln"
           $buildConfiguration = "Debug"
           $useSharedCompilation = "false"
           $testProjects = "MICoreUnitTests/MICoreUnitTests.csproj", "JDbgUnitTests/JDbgUnitTests.csproj", "SSHDebugTests/SSHDebugUnitTests.csproj", "../test/CppTests/CppTests.csproj", "../test/DebugAdapterRunner/DebugAdapterRunner.csproj", "../test/DebuggerTesting/DebuggerTesting.csproj" # separate paths with comma as in: "test1", "test2"
@@ -50,7 +50,7 @@ jobs:
 
           nuget restore $pathToSolution
 
-          msbuild src/MIDebugEngine.sln `
+          msbuild $pathToSolution `
           -property:Configuration=$buildConfiguration `
           -property:UseSharedCompilation=$useSharedCompilation `
           -target:rebuild
