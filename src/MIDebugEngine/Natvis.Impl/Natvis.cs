@@ -45,6 +45,7 @@ namespace Microsoft.MIDebugEngine.Natvis
         public virtual bool IsVisualized { get { return Parent.IsVisualized; } }
         public virtual enum_DEBUGPROP_INFO_FLAGS PropertyInfoFlags { get; set; }
         public virtual bool IsReadOnly() => Parent.IsReadOnly();
+        public bool IsNullPointer() => Parent.IsNullPointer();
 
         public VariableInformation FindChildByName(string name) => Parent.FindChildByName(name);
         public string EvalDependentExpression(string expr) => Parent.EvalDependentExpression(expr);
@@ -933,7 +934,7 @@ namespace Microsoft.MIDebugEngine.Natvis
                     }
                 }
             }
-            if (!(variable is VisualizerWrapper)) // don't stack wrappers
+            if (!(variable is VisualizerWrapper) && !expandType.HideRawView) // don't stack wrappers, and respect HideRawView
             {
                 // add the [Raw View] field
                 IVariableInformation rawView = new VisualizerWrapper(ResourceStrings.RawView, _process.Engine, variable, visualizer, isVisualizerView: false);
