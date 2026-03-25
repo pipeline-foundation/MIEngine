@@ -97,4 +97,28 @@
     <DisplayString>{{ size={_size} (int-keyed) }}</DisplayString>
   </Type>
 
+  <Type Name="HideRawViewObject">
+    <DisplayString>Hidden raw view object</DisplayString>
+    <Expand HideRawView="true">
+      <Item Name="X">x</Item>
+      <Item Name="Y">y</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="ShowRawViewObject">
+    <DisplayString>Shown raw view object</DisplayString>
+    <Expand>
+      <Item Name="A">a</Item>
+      <Item Name="B">b</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="DataPoint">
+    <DisplayString>{value}</DisplayString>
+  </Type>
+
+  <Type Name="DataPoint *">
+    <DisplayString>{{ {this}={*this} }}</DisplayString>
+  </Type>
+
 </AutoVisualizer>
